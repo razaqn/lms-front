@@ -1,12 +1,25 @@
 import { Search, ShoppingCart, Menu, X } from "lucide-react";
 import { useState } from "react";
-import suviImg from "../assets/suvi.png";
-import { Button } from "./ui/button";
+import suviImg from "../../assets/suvi.png";
+import { Button } from "../ui/button";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isOpening, setIsOpening] = useState(false);
+  const navigate = useNavigate();
+
+  function handleToLoginPage() {
+    navigate({
+      pathname: "/login",
+    });
+  }
+  function handleToRegisterPage(e) {
+    navigate({
+      pathname: "/register",
+    });
+  }
 
   const toggleMenu = () => {
     if (isMenuOpen) {
@@ -40,8 +53,12 @@ export default function Navbar() {
         {/* Desktop menu */}
         <div className="hidden lg:flex justify-center gap-4 items-center">
           <ShoppingCart className="w-24 h-24 cursor-pointer mx-4" />
-          <Button className="border border-orange-500 text-orange-500 font-bold cursor-pointer">Login</Button>
-          <Button className="border border-orange-500 bg-orange-500 text-neutral-50 font-bold cursor-pointer">Sign Up</Button>
+          <Button className="border border-orange-500 text-orange-500 font-bold cursor-pointer">
+            <Link to="/login">Login</Link>
+          </Button>
+          <Button className="border border-orange-500 bg-orange-500 text-neutral-50 font-bold cursor-pointer">
+            <Link to="/register">Sign Up</Link>
+          </Button>
         </div>
 
         {/* Mobile hamburger menu */}
@@ -77,8 +94,12 @@ export default function Navbar() {
                   <ShoppingCart className="w-5 h-5 cursor-pointer transition-transform duration-300 hover:scale-110" />
                   <span className="ml-2">Cart</span>
                 </div>
-                <Button className="border border-orange-500 text-orange-500 font-bold cursor-pointer w-full transition-all duration-300 hover:bg-orange-50">Login</Button>
-                <Button className="border border-orange-500 bg-orange-500 text-neutral-50 font-bold cursor-pointer w-full transition-all duration-300 hover:bg-orange-600">Sign Up</Button>
+                <Button onClick={handleToLoginPage} className="border border-orange-500 text-orange-500 font-bold cursor-pointer w-full transition-all duration-300 hover:bg-orange-50">
+                  Login
+                </Button>
+                <Button onClick={handleToRegisterPage} className="border border-orange-500 bg-orange-500 text-neutral-50 font-bold cursor-pointer w-full transition-all duration-300 hover:bg-orange-600">
+                  Sign Up
+                </Button>
               </div>
             </div>
           </div>

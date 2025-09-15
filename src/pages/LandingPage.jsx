@@ -1,4 +1,4 @@
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/layout/navbar";
 import togaimg from "../assets/toga.png";
 import { Button } from "@/components/ui/button";
 import bgShape from "../assets/blop.svg";
@@ -6,11 +6,17 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import Footer from "@/components/footer";
+import Footer from "@/components/layout/footer";
+import WithInstructureComponent from "@/components/withInstructure";
+import { useState } from "react";
 
 export default function LandingPage() {
+  const [isWithInstructure, setIsWithInstructure] = useState(false);
+
   return (
     <>
+      {isWithInstructure && <WithInstructureComponent setIsWithInstructure={setIsWithInstructure} isWithInstructure={isWithInstructure} />}
+
       <Navbar />
       <div className="flex flex-col-reverse lg:flex-row justify-evenly my-20 items-center gap-8 px-6">
         <div className="flex flex-col w-full lg:w-sm text-center lg:text-left">
@@ -57,7 +63,7 @@ export default function LandingPage() {
           >
             <CarouselContent>
               {Array.from({ length: 4 }).map((_, index) => (
-                <CarouselItem key={index} className="basis-full md:basis-1/2">
+                <CarouselItem onClick={() => setIsWithInstructure(true)} key={index} className="basis-full md:basis-1/2">
                   <div className="p-1">
                     <Card className="bg-neutral-950 transition-transform duration-300 hover:scale-105">
                       <CardContent className="flex items-center justify-center p-4 lg:p-6 h-[150px] lg:h-[202px]"></CardContent>
@@ -75,11 +81,11 @@ export default function LandingPage() {
 
       {/* our award section */}
       <div className="flex flex-col px-4 lg:px-12 my-6 lg:my-10">
-        <div className="flex flex-col lg:flex-row lg:justify-evenly text-lg text-neutral-700 my-2 lg:my-4 gap-4 lg:gap-0">
-          <div className="flex w-full justify-center lg:justify-start lg:ms-50">
+        <div className="flex lg:justify-evenly text-lg text-neutral-700 my-2 lg:my-4 gap-4 lg:gap-0">
+          <div className="flex w-full justify-start ms-2 lg:ms-50">
             <h2 className="text-lg lg:text-xl text-neutral-900 font-bold text-center lg:text-left">Penghargaan Kami</h2>
           </div>
-          <div className="flex w-full justify-center lg:ms-35">
+          <div className="flex w-full justify-end md:justify-center lg:ms-35">
             <Link className="flex justify-between items-center text-sm lg:text-lg text-neutral-600 font-bold transition-colors duration-300 hover:text-neutral-800">
               Selengkapnya <ArrowRight className="ml-1 transition-transform duration-300 hover:translate-x-1" />
             </Link>
