@@ -1,10 +1,11 @@
-import { Search, ShoppingCart, Menu, X } from "lucide-react";
+import { Search, ShoppingCart, Menu, X, Heart } from "lucide-react";
 import { useState } from "react";
 import suviImg from "../../assets/suvi.png";
 import { Button } from "../ui/button";
 import { Link, useNavigate } from "react-router-dom";
+import ProfileIcon from "../common/profileIcon";
 
-export default function Navbar() {
+export default function Navbar({ user }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isOpening, setIsOpening] = useState(false);
@@ -15,7 +16,8 @@ export default function Navbar() {
       pathname: "/login",
     });
   }
-  function handleToRegisterPage(e) {
+
+  function handleToRegisterPage() {
     navigate({
       pathname: "/register",
     });
@@ -50,16 +52,30 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Desktop menu */}
-        <div className="hidden lg:flex justify-center gap-4 items-center">
-          <ShoppingCart className="w-24 h-24 cursor-pointer mx-4" />
-          <Button className="border border-orange-500 text-orange-500 font-bold cursor-pointer">
-            <Link to="/login">Login</Link>
-          </Button>
-          <Button className="border border-orange-500 bg-orange-500 text-neutral-50 font-bold cursor-pointer">
-            <Link to="/register">Sign Up</Link>
-          </Button>
-        </div>
+        {!user ? (
+          <>
+            {/* Desktop menu unauthenticated */}
+            <div className="hidden lg:flex justify-center gap-4 items-center">
+              <ShoppingCart className="w-24 h-24 cursor-pointer mx-4" />
+              <Button className="border border-orange-500 text-orange-500 font-bold cursor-pointer">
+                <Link to="/login">Login</Link>
+              </Button>
+              <Button className="border border-orange-500 bg-orange-500 text-neutral-50 font-bold cursor-pointer">
+                <Link to="/register">Sign Up</Link>
+              </Button>
+            </div>
+          </>
+        ) : (
+          <>
+            {/* Desktop menu autheticated */}
+            <div className="hidden lg:flex justify-center gap-4 items-center">
+              <Button className="cursor-pointer font-medium me-4">Kelas</Button>
+              <Heart className="w-24 h-24 cursor-pointer" />
+              <ShoppingCart className="w-24 h-24 cursor-pointer me-4" />
+              <ProfileIcon />
+            </div>
+          </>
+        )}
 
         {/* Mobile hamburger menu */}
         <div className="lg:hidden flex items-center">
@@ -89,18 +105,29 @@ export default function Navbar() {
               </div>
 
               {/* Mobile menu items */}
-              <div className="flex flex-col space-y-3">
-                <div className="flex items-center justify-center py-2 transition-colors duration-300 hover:bg-gray-100 rounded-lg">
-                  <ShoppingCart className="w-5 h-5 cursor-pointer transition-transform duration-300 hover:scale-110" />
-                  <span className="ml-2">Cart</span>
+              {!user ? (
+                <div className="flex flex-col space-y-3">
+                  <div className="flex items-center justify-center py-2 transition-colors duration-300 hover:bg-gray-100 rounded-lg">
+                    <ShoppingCart className="w-5 h-5 cursor-pointer transition-transform duration-300 hover:scale-110" />
+                    <span className="ml-2">Cart</span>
+                  </div>
+                  <Button onClick={handleToLoginPage} className="border border-orange-500 text-orange-500 font-bold cursor-pointer w-full transition-all duration-300 hover:bg-orange-50">
+                    Login
+                  </Button>
+                  <Button onClick={handleToRegisterPage} className="border border-orange-500 bg-orange-500 text-neutral-50 font-bold cursor-pointer w-full transition-all duration-300 hover:bg-orange-600">
+                    Sign Up
+                  </Button>
                 </div>
-                <Button onClick={handleToLoginPage} className="border border-orange-500 text-orange-500 font-bold cursor-pointer w-full transition-all duration-300 hover:bg-orange-50">
-                  Login
-                </Button>
-                <Button onClick={handleToRegisterPage} className="border border-orange-500 bg-orange-500 text-neutral-50 font-bold cursor-pointer w-full transition-all duration-300 hover:bg-orange-600">
-                  Sign Up
-                </Button>
-              </div>
+              ) : (
+                <div className="flex items-center justify-evenly py-2 transition-colors duration-300 hover:bg-gray-100 rounded-lg">
+                  <Button className="cursor-pointer font-medium">Kelas</Button>
+                  <div className="flex justify-center gap-4">
+                    <Heart className="w-24 h-24 cursor-pointer" />
+                    <ShoppingCart className="w-24 h-24 cursor-pointer me-4" />
+                  </div>
+                  <ProfileIcon />
+                </div>
+              )}
             </div>
           </div>
         )}
