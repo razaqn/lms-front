@@ -1,240 +1,190 @@
-import { FaCheckCircle, FaLaptop, FaDownload } from "react-icons/fa";
-import headphonesImage from "@/assets/headphones.jpg";
-import { Clock, BookOpen, ShoppingCart } from "lucide-react";
+import React, { useState } from 'react';
+import { FaDownload, FaFileAlt, FaImage, FaLink, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
-export default function CourseContent() {
-  const learningTopics = ["design icon", "membuat logo", "design banner", "Photoshop Tools", "Typography", "design grafis"];
+function CourseContent({ lesson, section }) {
+  const [activeTab, setActiveTab] = useState('overview');
+  const [showResources, setShowResources] = useState(true);
 
-  const requirements = ["Laptop dengan ram 8 GB", "Software photoshop"];
+  // Mock resources data (karena di courseData.js masih kosong)
+  const mockResources = [
+    {
+      id: 1,
+      title: 'Background image.png',
+      type: 'image',
+      size: '2.5 MB',
+      downloadUrl: '#'
+    },
+    {
+      id: 2,
+      title: 'Asset.rar',
+      type: 'file',
+      size: '15.2 MB',
+      downloadUrl: '#'
+    }
+  ];
+
+  const getResourceIcon = (type) => {
+    switch (type) {
+      case 'image':
+        return <FaImage className="text-blue-500" />;
+      case 'file':
+        return <FaFileAlt className="text-gray-500" />;
+      case 'link':
+        return <FaLink className="text-green-500" />;
+      default:
+        return <FaFileAlt className="text-gray-500" />;
+    }
+  };
+
+  const tabs = [
+    { id: 'overview', label: 'Overview', count: null },
+    { id: 'resources', label: 'Resource yang diperlukan', count: mockResources.length }
+  ];
 
   return (
-    <div className="bg-white rounded-lg p-4 sm:p-6 space-y-6 sm:space-y-8">
-      {/* Apa yang akan dipelajari */}
-      <div>
-        <h2 className="text-xl font-bold text-gray-800 mb-4">Apa yang akan dipelajari?</h2>
+    <div className="max-w-4xl">
+      {/* Lesson Title and Info */}
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+          {lesson?.title || 'Pilih lesson untuk melihat konten'}
+        </h1>
+        <p className="text-gray-600">
+          {section?.title} • {lesson?.duration}
+        </p>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {learningTopics.map((topic, index) => (
-            <div key={index} className="flex items-center gap-3">
-              <FaCheckCircle className="text-green-500 text-sm flex-shrink-0" />
-              <span className="text-gray-700 text-sm">{topic}</span>
-            </div>
+      {/* Tabs Navigation */}
+      <div className="border-b border-gray-200 mb-6">
+        <nav className="flex space-x-8">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
+                activeTab === tab.id
+                  ? 'border-orange-500 text-orange-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              {tab.label}
+              {tab.count !== null && (
+                <span className={`ml-2 px-2 py-1 text-xs rounded-full ${
+                  activeTab === tab.id
+                    ? 'bg-orange-100 text-orange-600'
+                    : 'bg-gray-100 text-gray-500'
+                }`}>
+                  {tab.count}
+                </span>
+              )}
+            </button>
           ))}
-        </div>
+        </nav>
       </div>
 
-      {/* Persyaratan kursus */}
-      <div>
-        <h2 className="text-xl font-bold text-gray-800 mb-4">Persyaratan kursus</h2>
-
-        <div className="space-y-3">
-          {requirements.map((requirement, index) => (
-            <div key={index} className="flex items-center gap-3">
-              {index === 0 ? <FaLaptop className="text-blue-500 text-sm flex-shrink-0" /> : <FaDownload className="text-purple-500 text-sm flex-shrink-0" />}
-              <span className="text-gray-700 text-sm">{requirement}</span>
+      {/* Tab Content */}
+      <div className="space-y-6">
+        {/* Overview Tab */}
+        {activeTab === 'overview' && (
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                Pengenalan tools laso tool
+              </h3>
+              <p className="text-gray-700 leading-relaxed">
+                Pada bagian ini, kita akan mempelajari penggunaan tools laso dalam software design. 
+                Tools ini sangat berguna untuk melakukan seleksi area yang kompleks dan tidak beraturan. 
+                Anda akan belajar teknik-teknik dasar hingga advanced dalam menggunakan laso tool untuk 
+                berbagai keperluan editing dan design.
+              </p>
             </div>
-          ))}
-        </div>
+
+            <div>
+              <h4 className="text-md font-semibold text-gray-900 mb-2">
+                Yang akan Anda pelajari:
+              </h4>
+              <ul className="list-disc list-inside space-y-1 text-gray-700">
+                <li>Pengenalan interface laso tool</li>
+                <li>Teknik seleksi dasar dengan laso</li>
+                <li>Penggunaan magnetic laso untuk edge detection</li>
+                <li>Tips dan trik untuk hasil seleksi yang presisi</li>
+                <li>Kombinasi laso tool dengan tools lainnya</li>
+              </ul>
+            </div>
+          </div>
+        )}
+
+        {/* Resources Tab */}
+        {activeTab === 'resources' && (
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">
+                Resource yang diperlukan
+              </h3>
+              <button
+                onClick={() => setShowResources(!showResources)}
+                className="flex items-center space-x-2 text-gray-500 hover:text-gray-700"
+              >
+                <span className="text-sm">
+                  {showResources ? 'Sembunyikan' : 'Tampilkan'}
+                </span>
+                {showResources ? (
+                  <FaChevronUp className="text-sm" />
+                ) : (
+                  <FaChevronDown className="text-sm" />
+                )}
+              </button>
+            </div>
+
+            {showResources && (
+              <div className="space-y-3">
+                {mockResources.map((resource) => (
+                  <div
+                    key={resource.id}
+                    className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                  >
+                    <div className="flex items-center space-x-3">
+                      <div className="flex-shrink-0">
+                        {getResourceIcon(resource.type)}
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-gray-900">
+                          {resource.title}
+                        </h4>
+                        <p className="text-sm text-gray-500">
+                          {resource.size}
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => window.open(resource.downloadUrl, '_blank')}
+                      className="flex items-center space-x-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+                    >
+                      <FaDownload className="text-sm" />
+                      <span className="text-sm font-medium">Download</span>
+                    </button>
+                  </div>
+                ))}
+
+                {mockResources.length === 0 && (
+                  <div className="text-center py-8 text-gray-500">
+                    <FaFileAlt className="mx-auto text-4xl mb-3 text-gray-300" />
+                    <p>Tidak ada resource untuk lesson ini</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
-      {/* Ulasan */}
-      <div>
-        <h2 className="text-xl font-bold text-gray-800 mb-6">Ulasan</h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Review 1 */}
-          <div className="bg-gray-50 rounded-lg p-4">
-            <div className="flex items-center gap-1 mb-2">
-              {[...Array(5)].map((_, i) => (
-                <span key={i} className="text-yellow-400 text-sm">
-                  ★
-                </span>
-              ))}
-            </div>
-            <p className="text-sm text-gray-700 mb-3">Kursus yang membuat saya memiliki skill dengan yang baik, dengan materi yang benar-benar mengajarkan saya dari benar-benar pemula hingga mahir. Sangat recommend!</p>
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-xs font-bold">RM</div>
-              <div>
-                <p className="text-sm font-semibold">Regitha Millas</p>
-                <p className="text-xs text-gray-500">Graphic Artist</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Review 2 */}
-          <div className="bg-gray-50 rounded-lg p-4">
-            <div className="flex items-center gap-1 mb-2">
-              {[...Array(5)].map((_, i) => (
-                <span key={i} className="text-yellow-400 text-sm">
-                  ★
-                </span>
-              ))}
-            </div>
-            <p className="text-sm text-gray-700 mb-3">Kursus yang membuat saya memiliki skill dengan yang baik, dengan materi yang benar-benar mengajarkan saya dari benar-benar pemula hingga mahir. Sangat recommend!</p>
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs font-bold">RM</div>
-              <div>
-                <p className="text-sm font-semibold">Regitha Millas</p>
-                <p className="text-xs text-gray-500">Graphic Artist</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Review 3 */}
-          <div className="bg-gray-50 rounded-lg p-4">
-            <div className="flex items-center gap-1 mb-2">
-              {[...Array(5)].map((_, i) => (
-                <span key={i} className="text-yellow-400 text-sm">
-                  ★
-                </span>
-              ))}
-            </div>
-            <p className="text-sm text-gray-700 mb-3">Kursus yang membuat saya memiliki skill dengan yang baik, dengan materi yang benar-benar mengajarkan saya dari benar-benar pemula hingga mahir. Sangat recommend!</p>
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold">RM</div>
-              <div>
-                <p className="text-sm font-semibold">Regitha Millas</p>
-                <p className="text-xs text-gray-500">Graphic Artist</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Review 4 */}
-          <div className="bg-gray-50 rounded-lg p-4">
-            <div className="flex items-center gap-1 mb-2">
-              {[...Array(5)].map((_, i) => (
-                <span key={i} className="text-yellow-400 text-sm">
-                  ★
-                </span>
-              ))}
-            </div>
-            <p className="text-sm text-gray-700 mb-3">Kursus yang membuat saya memiliki skill dengan yang baik, dengan materi yang benar-benar mengajarkan saya dari benar-benar pemula hingga mahir. Sangat recommend!</p>
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold">RM</div>
-              <div>
-                <p className="text-sm font-semibold">Regitha Millas</p>
-                <p className="text-xs text-gray-500">Graphic Artist</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Kursus serupa */}
-      <div>
-        <h2 className="text-xl font-bold text-gray-800 mb-6">Kursus serupa</h2>
-
-        <div className="space-y-4">
-          {/* Courses */}
-          <div className="flex flex-col sm:flex-row gap-4 bg-white p-4 hover:shadow-md transition-shadow">
-            <div className="flex-1 bg-yellow-400 flex items-center justify-center flex-shrink-0">
-              <img src={headphonesImage} alt="Course" className="object-cover" />
-            </div>
-            <div className="flex-3">
-              <h3 className="font-semibold text-gray-800 mb-1">Adobe after effect for beginners</h3>
-              <p className="text-sm text-gray-600 mb-2">Graphic Design</p>
-              <div className="flex items-center gap-4 text-sm text-gray-500">
-                <div className="flex items-center gap-1">
-                  <span className="text-yellow-400">★</span>
-                  <span>4.9</span>
-                  <span>(1k Siswa)</span>
-                </div>
-                <span>📥 15 Siswa</span>
-              </div>
-              {/* Duration and Lessons */}
-              <div className="flex items-center justify-start gap-4 text-xs text-gray-500 pt-1">
-                <div className="flex items-center gap-1">
-                  <Clock className="w-3 h-3 text-orange-500 flex-shrink-0" />
-                  <span className="truncate">12</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <BookOpen className="w-3 h-3 text-blue-500 flex-shrink-0" />
-                  <span className="truncate">15 Lessons</span>
-                </div>
-              </div>
-            </div>
-            <div className="text-center sm:text-right">
-              <div className="text-lg font-bold text-orange-500">Rp150.000</div>
-              <div className="text-sm text-gray-400 line-through">Rp250.000</div>
-              <button className="p-3 mt-2 rounded-full border-4 border-orange-500 text-orange-500 rounded hover:bg-orange-50">
-                <ShoppingCart className="w-20 h-20 text-neutral-800" />
-              </button>
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-4 bg-white p-4 hover:shadow-md transition-shadow">
-            <div className="flex-1 bg-yellow-400 flex items-center justify-center flex-shrink-0">
-              <img src={headphonesImage} alt="Course" className="object-cover" />
-            </div>
-            <div className="flex-3">
-              <h3 className="font-semibold text-gray-800 mb-1">Adobe after effect for beginners</h3>
-              <p className="text-sm text-gray-600 mb-2">Graphic Design</p>
-              <div className="flex items-center gap-4 text-sm text-gray-500">
-                <div className="flex items-center gap-1">
-                  <span className="text-yellow-400">★</span>
-                  <span>4.9</span>
-                  <span>(1k Siswa)</span>
-                </div>
-                <span>📥 15 Siswa</span>
-              </div>
-              {/* Duration and Lessons */}
-              <div className="flex items-center justify-start gap-4 text-xs text-gray-500 pt-1">
-                <div className="flex items-center gap-1">
-                  <Clock className="w-3 h-3 text-orange-500 flex-shrink-0" />
-                  <span className="truncate">12</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <BookOpen className="w-3 h-3 text-blue-500 flex-shrink-0" />
-                  <span className="truncate">15 Lessons</span>
-                </div>
-              </div>
-            </div>
-            <div className="text-center sm:text-right">
-              <div className="text-lg font-bold text-orange-500">Rp150.000</div>
-              <div className="text-sm text-gray-400 line-through">Rp250.000</div>
-              <button className="p-3 mt-2 rounded-full border-4 border-orange-500 text-orange-500 rounded hover:bg-orange-50">
-                <ShoppingCart className="w-20 h-20 text-neutral-800" />
-              </button>
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-4 bg-white p-4 hover:shadow-md transition-shadow">
-            <div className="flex-1 bg-yellow-400  flex items-center justify-center flex-shrink-0">
-              <img src={headphonesImage} alt="Course" className="object-cover" />
-            </div>
-            <div className="flex-3">
-              <h3 className="font-semibold text-gray-800 mb-1">Adobe after effect for beginners</h3>
-              <p className="text-sm text-gray-600 mb-2">Graphic Design</p>
-              <div className="flex items-center gap-4 text-sm text-gray-500">
-                <div className="flex items-center gap-1">
-                  <span className="text-yellow-400">★</span>
-                  <span>4.9</span>
-                  <span>(1k Siswa)</span>
-                </div>
-                <span>📥 15 Siswa</span>
-              </div>
-              {/* Duration and Lessons */}
-              <div className="flex items-center justify-start gap-4 text-xs text-gray-500 pt-1">
-                <div className="flex items-center gap-1">
-                  <Clock className="w-3 h-3 text-orange-500 flex-shrink-0" />
-                  <span className="truncate">12</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <BookOpen className="w-3 h-3 text-blue-500 flex-shrink-0" />
-                  <span className="truncate">15 Lessons</span>
-                </div>
-              </div>
-            </div>
-            <div className="text-center sm:text-right">
-              <div className="text-lg font-bold text-orange-500">Rp150.000</div>
-              <div className="text-sm text-gray-400 line-through">Rp250.000</div>
-              <button className="p-3 mt-2 rounded-full border-4 border-orange-500 text-orange-500 rounded hover:bg-orange-50">
-                <ShoppingCart className="w-20 h-20 text-neutral-800" />
-              </button>
-            </div>
-          </div>
-        </div>
+      {/* Next Lesson Button */}
+      <div className="mt-8 pt-6 border-t border-gray-200">
+        <button className="w-full sm:w-auto px-6 py-3 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors">
+          Next Lesson
+        </button>
       </div>
     </div>
   );
 }
+
+export default CourseContent;

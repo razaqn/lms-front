@@ -1,6 +1,6 @@
 import Navbar from "@/components/layout/navbar";
 import WhatLearn from "@/components/common/whatLearn";
-import CourseCard from "@/components/common/CourseCard";
+import CourseCard from "@/components/course/CourseCard";
 import Footer from "@/components/layout/footer";
 import MyClass from "./MyClass";
 

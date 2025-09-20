@@ -1,4 +1,4 @@
-import CourseCard from "@/components/common/CourseCard";
+import CourseCard from "@/components/course/CourseCard";
 import { Link } from "react-router-dom";
 import { Frown } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/Carousel";
