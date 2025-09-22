@@ -10,6 +10,7 @@ import CourseDetail from "./pages/course/CourseDetail";
 import CoursePage from "./pages/course/CoursePage";
 import Profile from "./pages/user/MyProfile";
 import CartPage from "./pages/cart/CartPage";
+import SearchPage from "./pages/search/SearchPage";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -28,6 +29,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/course/:id" element={<CourseDetail />} />
         <Route path="/course/:id/learn" element={<CoursePage />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/search" element={<SearchPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>

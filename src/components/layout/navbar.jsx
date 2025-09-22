@@ -17,9 +17,21 @@ export default function Navbar({ user }) {
     });
   }
 
+  function handleCartButton() {
+    navigate({
+      pathname: "/cart",
+    });
+  }
+
   function handleToRegisterPage() {
     navigate({
       pathname: "/register",
+    });
+  }
+
+  function handleSearchButton() {
+    navigate({
+      pathname: "/search",
     });
   }
 
@@ -47,22 +59,24 @@ export default function Navbar({ user }) {
         {/* Search bar - hidden on mobile */}
         <div className="hidden lg:flex items-center w-xl rounded-lg border border-neutral-900 overflow-hidden">
           <input type="text" placeholder="Search..." className="flex-8 px-4 py-2 text-sm outline-none" />
-          <div className="bg-orange-500 h-full w-40 flex justify-center items-center border-l">
+          <Button className="bg-orange-500 h-full w-40 flex justify-center items-center border-l rounded-none cursor-pointer hover:bg-orange-600" onClick={handleSearchButton}>
             <Search className="text-neutral-50 text-sm" />
-          </div>
+          </Button>
         </div>
 
         {!user ? (
           <>
             {/* Desktop menu unauthenticated */}
             <div className="hidden lg:flex justify-center gap-4 items-center">
-              <ShoppingCart className="w-24 h-24 cursor-pointer mx-4" />
-              <Button className="border border-orange-500 text-orange-500 font-bold cursor-pointer">
-                <Link to="/login">Login</Link>
-              </Button>
-              <Button className="border border-orange-500 bg-orange-500 text-neutral-50 font-bold cursor-pointer">
-                <Link to="/register">Sign Up</Link>
-              </Button>
+              <ShoppingCart className="w-24 h-24 cursor-pointer mx-4" onClick={handleCartButton} />
+
+              <Link to="/login">
+                <Button className="border border-orange-500 text-orange-500 font-bold cursor-pointer">Login</Button>
+              </Link>
+
+              <Link to="/register">
+                <Button className="border border-orange-500 bg-orange-500 text-neutral-50 font-bold cursor-pointer">Sign Up</Button>
+              </Link>
             </div>
           </>
         ) : (
@@ -71,7 +85,7 @@ export default function Navbar({ user }) {
             <div className="hidden lg:flex justify-center gap-4 items-center">
               <Button className="cursor-pointer font-medium me-4">Kelas</Button>
               <Heart className="w-24 h-24 cursor-pointer" />
-              <ShoppingCart className="w-24 h-24 cursor-pointer me-4" />
+              <ShoppingCart className="w-24 h-24 cursor-pointer me-4" onClick={handleCartButton} />
               <ProfileIcon />
             </div>
           </>
@@ -99,18 +113,18 @@ export default function Navbar({ user }) {
               {/* Mobile search */}
               <div className="flex items-stretch rounded-lg border border-neutral-900 overflow-hidden transition-all duration-300 focus-within:border-orange-500 focus-within:shadow-md">
                 <input type="text" placeholder="Search..." className="flex-1 px-4 py-2 text-sm outline-none transition-all duration-300" />
-                <div className="bg-orange-500 w-22 flex justify-center items-center border-l transition-all duration-300 hover:bg-orange-600">
+                <Button className="bg-orange-500 w-22 flex justify-center items-center border-l transition-all duration-300 hover:bg-orange-600 rounded-none" onClick={handleSearchButton}>
                   <Search className="text-neutral-50 w-5 h-5 transition-transform duration-300 hover:scale-110" />
-                </div>
+                </Button>
               </div>
 
               {/* Mobile menu items */}
               {!user ? (
                 <div className="flex flex-col space-y-3">
-                  <div className="flex items-center justify-center py-2 transition-colors duration-300 hover:bg-gray-100 rounded-lg">
+                  <Button onClick={handleCartButton} className="flex items-center justify-center py-2 transition-colors duration-300 hover:bg-gray-100 rounded-lg">
                     <ShoppingCart className="w-5 h-5 cursor-pointer transition-transform duration-300 hover:scale-110" />
                     <span className="ml-2">Cart</span>
-                  </div>
+                  </Button>
                   <Button onClick={handleToLoginPage} className="border border-orange-500 text-orange-500 font-bold cursor-pointer w-full transition-all duration-300 hover:bg-orange-50">
                     Login
                   </Button>
@@ -123,7 +137,9 @@ export default function Navbar({ user }) {
                   <Button className="cursor-pointer font-medium">Kelas</Button>
                   <div className="flex justify-center gap-4">
                     <Heart className="w-24 h-24 cursor-pointer" />
-                    <ShoppingCart className="w-24 h-24 cursor-pointer me-4" />
+                    <Button onClick={handleCartButton} className="w-24 h-24 cursor-pointer me-4">
+                      <ShoppingCart className="w-24 h-24 cursor-pointer me-4" />
+                    </Button>
                   </div>
                   <ProfileIcon />
                 </div>

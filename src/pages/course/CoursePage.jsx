@@ -5,10 +5,12 @@ import CourseVideoPlayer from "../../components/course/CourseVideoPlayer";
 import CourseContent from "../../components/course/CourseContent";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
+import BNSPCard from "@/components/course/BNSPCard";
 
 function CoursePage() {
   // State untuk lesson yang sedang aktif
   const [currentLesson, setCurrentLesson] = useState(courseData.sections[0]?.lessons[0] || null);
+  const [isBNSP, setIsBNSP] = useState(false);
 
   // State untuk section yang sedang aktif
   const [currentSection, setCurrentSection] = useState(courseData.sections[0] || null);
@@ -24,11 +26,13 @@ function CoursePage() {
   return (
     <>
       <Navbar />
+      {isBNSP && <BNSPCard setIsBNSP={setIsBNSP} />}
+
       <div className="min-h-screen mt-18 bg-gray-50">
         <div className="flex flex-col lg:flex-row">
           {/* Sidebar - Hidden on mobile, shown on desktop */}
           <div className="hidden lg:block w-sm bg-white shadow-lg min-h-screen">
-            <CourseSidebar course={courseData} activeLesson={currentLesson} onLessonSelect={handleLessonChange} />
+            <CourseSidebar setIsBNSP={setIsBNSP} course={courseData} activeLesson={currentLesson} onLessonSelect={handleLessonChange} />
           </div>
 
           {/* Mobile Sidebar Toggle - Only visible on mobile */}
@@ -47,6 +51,7 @@ function CoursePage() {
             {mobileSidebarOpen && (
               <div className="border-t bg-white">
                 <CourseSidebar
+                  setIsBNSP={setIsBNSP}
                   course={courseData}
                   activeLesson={currentLesson}
                   onLessonSelect={(lesson, section) => {

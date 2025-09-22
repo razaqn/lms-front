@@ -1,7 +1,9 @@
+import { LockKeyhole } from "lucide-react";
 import React, { useState } from "react";
 import { FaPlay, FaCheck, FaClock, FaChevronDown, FaChevronRight } from "react-icons/fa";
+import { Button } from "../ui/button";
 
-function CourseSidebar({ course, activeLesson, onLessonSelect }) {
+function CourseSidebar({ course, activeLesson, onLessonSelect, setIsBNSP }) {
   const sections = course?.sections || [];
 
   // State untuk track section mana yang terbuka
@@ -27,6 +29,12 @@ function CourseSidebar({ course, activeLesson, onLessonSelect }) {
       {/* Header Sidebar */}
       <div className="p-4 border-b border-gray-200">
         <h3 className="font-semibold text-gray-900">Konten Kursus</h3>
+      </div>
+      <div className="py-2 px-2  bg-orange-500 text-neutral-50 cursor-pointer">
+        <Button className="cursor-pointer flex justify-between w-full" onClick={() => setIsBNSP(true)}>
+          <h2>Sertifikasi BNSP</h2>
+          <LockKeyhole />
+        </Button>
       </div>
 
       {/* Sections List */}
